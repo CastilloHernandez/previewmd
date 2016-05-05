@@ -36,6 +36,8 @@ for d in BuscarReadmes('.'):
 			if not l.startswith('---'):
 				if not l.startswith('!['):
 					c.append(l + '\n')
+		while len(c[-1])<=1:
+			c.pop()
 		if len(c[-1])>1:
 			NecesitaLineaEnBlanco=True
 	for i in BuscarImagenes(d):
