@@ -27,12 +27,16 @@ for d in BuscarReadmes('.'):
 	HashOriginal=''
 	HashModificado=''
 	NecesitaLineaEnBlanco=False
+	AgregarContenido=False
 	ImagenesAgregadas=False
 	#print 'Analizando: ' + os.path.join(d,'README.md')
 	with open(os.path.join(d,'README.md'),'r') as f:
-		o=f.read()
+		o=f.read().replace('\r\n','\n')
 		HashOriginal=hashlib.md5(o).hexdigest()
 		for l in o.splitlines():
+			if l.startswith('## Contenido'):
+				AgregarContenido=True
+				break
 			if not l.startswith('---'):
 				if not l.startswith('!['):
 					c.append(l + '\n')
@@ -40,6 +44,23 @@ for d in BuscarReadmes('.'):
 			c.pop()
 		if len(c[-1])>1:
 			NecesitaLineaEnBlanco=True
+	if AgregarContenido:
+		if NecesitaLineaEnBlanco:
+			NecesitaLineaEnBlanco=False
+			c.append('\n')
+		c.append('## Contenido\n')
+		for r in BuscarReadmes(d):
+			if not r == d:
+				with open(os.path.join(r,'README.md'),'r') as f:
+					for l in f.read().splitlines():
+						if l.startswith('# '):
+							c.append('* ' + l[2:] + '\n')
+						if l.startswith('##'):
+							c.append('\t*' + l[2:] + '\n')
+						if l.startswith('* '):
+							c.append('\t\t* ' + l[2:] + '\n')
+	if len(c[-1])>1:
+		NecesitaLineaEnBlanco=True
 	for i in BuscarImagenes(d):
 		ImagenesAgregadas=True
 		if NecesitaLineaEnBlanco:
