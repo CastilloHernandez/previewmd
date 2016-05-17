@@ -1,6 +1,12 @@
 import os
 import mimetypes
 import hashlib
+import urllib2
+
+def get_redirected_url(url):
+	opener = urllib2.build_opener(urllib2.HTTPRedirectHandler)
+	request = opener.open(url)
+	return request.url
 
 def BuscarImagenes(dir):
 	r=[]
@@ -19,27 +25,44 @@ def BuscarReadmes(dir):
 			if file == 'README.md':
 				r.append(root)
 	return sorted(r)
-	
+
+
 for d in BuscarReadmes('.'):
 	#print d
 	c=[]
 	o=''
+	UrlAvatar=''
 	HashOriginal=''
 	HashModificado=''
+	Seccion=''
 	NecesitaLineaEnBlanco=False
 	AgregarContenido=False
 	ImagenesAgregadas=False
-	#print 'Analizando: ' + os.path.join(d,'README.md')
 	with open(os.path.join(d,'README.md'),'r') as f:
 		o=f.read().replace('\r\n','\n')
 		HashOriginal=hashlib.md5(o).hexdigest()
 		for l in o.splitlines():
+			if l.startswith('##'):
+				Seccion=l[3:]
 			if l.startswith('## Contenido'):
 				AgregarContenido=True
 				break
 			if not l.startswith('---'):
 				if not l.startswith('!['):
-					c.append(l + '\n')
+					if l.startswith('* '):
+						if l[2:].count(' ') == 0:
+							try:
+								if Seccion == 'Autores':
+									UrlAvatar=get_redirected_url('http://www.github.com/' + l[2:] + '.png')
+									c.append('* <a href="http://www.github.com/' + l[2:] + '">' + l[2:] + '</a> <img src="' + UrlAvatar + '&s=50">\n')	
+								else:
+									c.append(l + '\n')									
+							except:
+								c.append(l + '\n')
+						else:
+							c.append(l + '\n')
+					else:
+						c.append(l + '\n')
 		while len(c[-1])<=1:
 			c.pop()
 		if len(c[-1])>1:
