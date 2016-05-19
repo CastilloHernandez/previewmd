@@ -78,8 +78,8 @@ for d in BuscarReadmes('.'):
 					for l in f.read().splitlines():
 						if l.startswith('# '):
 							c.append('* ' + l[2:] + '\n')
-						if l.startswith('##'):
-							c.append('\t*' + l[2:] + '\n')
+						if l.startswith('## '):
+							c.append('\t* ' + l[3:] + '\n')
 						if l.startswith('* '):
 							c.append('\t\t* ' + l[2:] + '\n')
 	if len(c[-1])>1:
