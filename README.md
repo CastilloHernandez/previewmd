@@ -19,7 +19,7 @@
 * Ninguno
 
 ## Autores
-* <a href="http://www.github.com/emmanuel156">emmanuel156</a> <img src="https://avatars0.githubusercontent.com/u/15036095?v=3&s=50">
+* <a href="http://www.github.com/emmanuel156">emmanuel156</a> <img src="https://avatars0.githubusercontent.com/u/15036095?v=3" height="32" width="32">
 
 ## Comentarios
 * Ninguno
