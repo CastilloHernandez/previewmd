@@ -101,7 +101,7 @@ for directorio in directorios:
 				NecesitaLineaEnBlanco=False
 				c.append('\n')
 			c.append('---\n')
-			c.append('![' + os.path.basename(i) + '](' + i.replace(chr(92),chr(47)) + ')\n')
+			c.append('![' + os.path.basename(i) + '](' + i.replace(chr(92),chr(47)).replace(' ','%20') + ')\n')
 		if ImagenesAgregadas:
 			c.append('---\n')
 		HashModificado=hashlib.md5(''.join(c)).hexdigest()

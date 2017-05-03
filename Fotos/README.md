@@ -13,9 +13,9 @@
 * Capturas de pantalla
 
 ---
-![Captura de pantalla 2016-05-05 11.58.59.png](/Fotos/Captura de pantalla 2016-05-05 11.58.59.png)
+![Captura de pantalla 2016-05-05 11.58.59.png](/Fotos/Captura%20de%20pantalla%202016-05-05%2011.58.59.png)
 ---
-![Captura de pantalla 2016-05-17 15.40.56.png](/Fotos/Captura de pantalla 2016-05-17 15.40.56.png)
+![Captura de pantalla 2016-05-17 15.40.56.png](/Fotos/Captura%20de%20pantalla%202016-05-17%2015.40.56.png)
 ---
-![Captura de pantalla 2016-05-17 18.12.57.png](/Fotos/Captura de pantalla 2016-05-17 18.12.57.png)
+![Captura de pantalla 2016-05-17 18.12.57.png](/Fotos/Captura%20de%20pantalla%202016-05-17%2018.12.57.png)
 ---
