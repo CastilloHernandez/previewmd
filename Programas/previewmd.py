@@ -12,10 +12,10 @@ def get_redirected_url(url):
 def BuscarImagenes(dir):
 	r=[]
 	for root, dirs, files in os.walk(dir):
-		for file in files:	
+		for file in files:
 			if str(mimetypes.guess_type(file)[0]).split('/')[0] == 'image':
-				r.append(str(os.path.join(root,file)).split('trunk')[1])
-	return sorted(r)	
+				r.append('/'+ '/'.join(str(os.path.join(root,file)).replace(chr(92),chr(47)).split('/')[1:]))
+	return sorted(r)
 def BuscarReadmes(dir):
 	r=[]
 	for root, dirs, files in os.walk(dir):
@@ -25,7 +25,6 @@ def BuscarReadmes(dir):
 	return sorted(r)
 
 parser = argparse.ArgumentParser(prog='previewmd')
-parser.add_argument('-branch',default='trunk')
 parser.add_argument('directorio',nargs='*')
 opt = parser.parse_args()
 
@@ -69,7 +68,7 @@ for directorio in directorios:
 										print 'Avatar no encontrado'
 										c.append(l + '\n')
 								else:
-									c.append(l + '\n')									
+									c.append(l + '\n')
 							else:
 								c.append(l + '\n')
 						else:
