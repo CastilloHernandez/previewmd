@@ -24,6 +24,26 @@ def BuscarReadmes(dir):
 				r.append(root)
 	return sorted(r)
 
+def remove_html_markup(s):
+	tag = False
+	quote = False
+	out = ""
+	for c in s:
+		if c == '<' and not quote:
+			tag = True
+		elif c == '>' and not quote:
+			tag = False
+		elif (c == '"' or c == "'") and tag:
+			quote = not quote
+		elif not tag:
+			out = out + c
+	return out
+
+def trim_one_space(s):
+	if s.endswith(" "): s = s[:-1]
+	if s.startswith(" "): s = s[1:]
+	return s
+
 parser = argparse.ArgumentParser(prog='previewmd')
 parser.add_argument('directorio',nargs='*')
 opt = parser.parse_args()
@@ -63,14 +83,25 @@ for directorio in directorios:
 										print 'Buscando avatar de ' + l[2:]
 										UrlAvatar=get_redirected_url('http://www.github.com/' + l[2:] + '.png')
 										print 'Avatar encontrado ' + UrlAvatar
-										c.append('* <a href="http://www.github.com/' + l[2:] + '">' + l[2:] + '</a> <img src="' + UrlAvatar + '" height="32" width="32">\n')	
+										c.append('* <a href="http://www.github.com/' + l[2:] + '">' + l[2:] + '</a> <img src="' + UrlAvatar + '" height="32" width="32">\n')
 									except:
 										print 'Avatar no encontrado'
 										c.append(l + '\n')
 								else:
 									c.append(l + '\n')
 							else:
-								c.append(l + '\n')
+								if Seccion == 'Autores':
+									try:
+										autor=trim_one_space(remove_html_markup(l[2:]))
+										print 'Actualizando avatar de ' + autor
+										UrlAvatar=get_redirected_url('http://www.github.com/' + autor + '.png')
+										print 'Avatar encontrado ' + UrlAvatar
+										c.append('* <a href="http://www.github.com/' + autor + '">' + autor + '</a> <img src="' + UrlAvatar + '" height="32" width="32">\n')
+									except:
+										print 'Avatar no encontrado'
+										c.append(l + '\n')
+								else:
+									c.append(l + '\n')
 						else:
 							c.append(l + '\n')
 			while len(c[-1])<=1:
