@@ -1,7 +1,7 @@
 import os
 import mimetypes
 import hashlib
-import urllib2
+import urllib
 import argparse
 
 def get_redirected_url(url):
@@ -67,7 +67,7 @@ for directorio in directorios:
 		ImagenesAgregadas=False
 		with open(os.path.join(d,'README.md'),'r') as f:
 			o=f.read().replace('\r\n','\n')
-			HashOriginal=hashlib.md5(o).hexdigest()
+			HashOriginal=hashlib.md5(o.encode('utf-8')).hexdigest()
 			for l in o.splitlines():
 				if l.startswith('## '):
 					Seccion=l[3:]
@@ -80,12 +80,12 @@ for directorio in directorios:
 							if l[2:].count(' ') == 0:
 								if Seccion == 'Autores':
 									try:
-										print 'Buscando avatar de ' + l[2:]
+										print ('Buscando avatar de ' + l[2:])
 										UrlAvatar=get_redirected_url('http://www.github.com/' + l[2:] + '.png')
-										print 'Avatar encontrado ' + UrlAvatar
+										print ('Avatar encontrado ' + UrlAvatar)
 										c.append('* <a href="http://www.github.com/' + l[2:] + '">' + l[2:] + '</a> <img src="' + UrlAvatar + '" height="32" width="32">\n')
 									except:
-										print 'Avatar no encontrado'
+										print ('Avatar no encontrado')
 										c.append(l + '\n')
 								else:
 									c.append(l + '\n')
@@ -93,12 +93,12 @@ for directorio in directorios:
 								if Seccion == 'Autores':
 									try:
 										autor=trim_one_space(remove_html_markup(l[2:]))
-										print 'Actualizando avatar de ' + autor
+										print ('Actualizando avatar de ' + autor)
 										UrlAvatar=get_redirected_url('http://www.github.com/' + autor + '.png')
-										print 'Avatar encontrado ' + UrlAvatar
+										print ('Avatar encontrado ' + UrlAvatar)
 										c.append('* <a href="http://www.github.com/' + autor + '">' + autor + '</a> <img src="' + UrlAvatar + '" height="32" width="32">\n')
 									except:
-										print 'Avatar no encontrado'
+										print ('Avatar no encontrado')
 										c.append(l + '\n')
 								else:
 									c.append(l + '\n')
@@ -134,11 +134,11 @@ for directorio in directorios:
 			c.append('![' + os.path.basename(i) + '](' + i.replace(chr(92),chr(47)).replace(' ','%20') + ')\n')
 		if ImagenesAgregadas:
 			c.append('---\n')
-		HashModificado=hashlib.md5(''.join(c)).hexdigest()
+		HashModificado=hashlib.md5(''.join(c).encode('utf-8')).hexdigest()
 		if HashOriginal==HashModificado:
-			print 'Sin cambios: ' + os.path.join(d,'README.md')
+			print ('Sin cambios: ' + os.path.join(d,'README.md'))
 		else:
-			print 'Modificado: ' + os.path.join(d,'README.md')
-			with open(os.path.join(d,'README.md'),'wb') as f:
+			print ('Modificado: ' + os.path.join(d,'README.md'))
+			with open(os.path.join(d,'README.md'),'w') as f:
 				f.writelines(c)
 
